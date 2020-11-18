@@ -7,8 +7,6 @@ const mongoose = require("mongoose");
 
 const Dishes = require("./models/dishes");
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 function auth (req, res, next) {
     console.log(req.session);
