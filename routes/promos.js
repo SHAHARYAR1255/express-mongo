@@ -1,3 +1,4 @@
+const cors = require('./cors');
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -22,7 +23,7 @@ promoRouter
       )
       .catch((err) => next(err));
   })
-  .post(authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
+  .post(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
     Promo.create(req.body)
       .then(
         (promo) => {
@@ -35,11 +36,11 @@ promoRouter
       )
       .catch((err) => next(err));
   })
-  .put(authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
+  .put(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end("PUT operation not supported on /Promo");
   })
-  .delete(authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
+  .delete(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
     Promo.remove({})
       .then(
         (resp) => {
@@ -66,11 +67,11 @@ promoRouter
       )
       .catch((err) => next(err));
   })
-  .post(authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
+  .post(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
     res.statusCode = 403;
     res.end("POST operation not supported on /Promo/" + req.params.promoId);
   })
-  .put(authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
+  .put(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
     Promo.findByIdAndUpdate(
       req.params.promoId,
       {
@@ -88,7 +89,7 @@ promoRouter
       )
       .catch((err) => next(err));
   })
-  .delete(authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
+  .delete(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin,(req, res, next) => {
     Promo.findByIdAndRemove(req.params.promoId)
       .then(
         (resp) => {

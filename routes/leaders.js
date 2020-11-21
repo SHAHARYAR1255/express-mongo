@@ -1,3 +1,4 @@
+const cors = require('./cors');
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -5,7 +6,6 @@ var authenticate = require('../authenticate');
 const Leader = require("../models/Leaders");
 
 const leaderRouter = express.Router();
-
 leaderRouter.use(bodyParser.json());
 
 leaderRouter
@@ -22,7 +22,7 @@ leaderRouter
       )
       .catch((err) => next(err));
   })
-  .post(authenticate.verifyUser ,authenticate.verifyAdmin, (req,res, next) => {
+  .post(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin, (req,res, next) => {
     Leader.create(req.body)
       .then(
         (Leader) => {
@@ -35,11 +35,11 @@ leaderRouter
       )
       .catch((err) => next(err));
   })
-  .put(authenticate.verifyUser ,authenticate.verifyAdmin, (req,res, next) => {
+  .put(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin, (req,res, next) => {
     res.statusCode = 403;
     res.end("PUT operation not supported on /Leader");
   })
-  .delete(authenticate.verifyUser ,authenticate.verifyAdmin, (req,res, next) => {
+  .delete(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin, (req,res, next) => {
     Leader.remove({})
       .then(
         (resp) => {
@@ -66,11 +66,11 @@ leaderRouter
       )
       .catch((err) => next(err));
   })
-  .post(authenticate.verifyUser ,authenticate.verifyAdmin, (req,res, next) => {
+  .post(cors.corsWithOptions,authenticate.verifyUser ,authenticate.verifyAdmin, (req,res, next) => {
     res.statusCode = 403;
     res.end("POST operation not supported on /Leader/" + req.params.LeaderId);
   })
-  .put(authenticate.verifyUser,authenticate.verifyAdmin, (req,res, next) => {
+  .put(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin, (req,res, next) => {
     Leader.findByIdAndUpdate(
       req.params.LeaderId,
       {
@@ -88,7 +88,7 @@ leaderRouter
       )
       .catch((err) => next(err));
   })
-  .delete(authenticate.verifyUser,authenticate.verifyAdmin,  (req,res, next) => {
+  .delete(cors.corsWithOptions,authenticate.verifyUser,authenticate.verifyAdmin,  (req,res, next) => {
     // if (!req.user.admin){
     //   return new Error('you are not authenticated to do so!!')
     // }

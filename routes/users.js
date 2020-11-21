@@ -1,3 +1,4 @@
+const cors = require('./cors');
 var express = require("express");
 var router = express.Router();
 const bodyParser = require("body-parser");
@@ -7,7 +8,7 @@ var authenticate = require("../authenticate");
 router.use(bodyParser.json());
 
 /* GET users listing. */
-router.route('/').get(authenticate.verifyUser, authenticate.verifyAdmin, function (req, res, next) {
+router.route('/').get(cors.corsWithOptions,authenticate.verifyUser, authenticate.verifyAdmin, function (req, res, next) {
   User.find({})
     .then(
       (users) => {
